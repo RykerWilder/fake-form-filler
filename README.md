@@ -39,12 +39,12 @@ name and city are reused everywhere they're needed on that page).
 - Doesn't work on fields inside a closed Shadow DOM.
 - On native `<select>` dropdowns, it tries to match the generated data to
   an option's text; if nothing matches, it picks a random option.
+- Any other native `<select>` dropdown (size, country, "how did you hear
+  about us?", etc.) also gets a random valid option picked — the empty/
+  disabled placeholder option is never chosen. Multi-select (`<select
+  multiple>`) and disabled selects are left untouched.
 - Doesn't handle "custom" dropdowns built with `<div>`s/JavaScript (not
   native `<select>` elements).
 - Radio buttons and checkboxes are clicked at random — including things
   like "I agree to the terms" — so always double-check before submitting
   a real form.
-- Intended for personal/testing use only. Only use it on sites where
-  entering fake data is appropriate (e.g. test accounts, non-binding
-  sign-ups). Don't use it to get around identity verification that
-  requires real information.
