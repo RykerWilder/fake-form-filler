@@ -143,13 +143,27 @@
 
   function fillSelect(el, type) {
     const target = normalize(valueFor(type) || "");
-    const options = Array.from(el.options).filter((o) => o.value);
+    const options = Array.from(el.options).filter((o) => o.value && !o.disabled);
     if (options.length === 0) return false;
 
     let match = options.find((o) => normalize(o.textContent).includes(target) || normalize(o.value).includes(target));
     if (!match) match = options[Math.floor(Math.random() * options.length)];
 
     el.value = match.value;
+    el.dispatchEvent(new Event("change", { bubbles: true }));
+    return true;
+  }
+
+  function fillRandomSelect(el) {
+    if (el.disabled || el.multiple) return false;
+
+    const options = Array.from(el.options).filter((o) => o.value && !o.disabled);
+    if (options.length === 0) return false;
+
+    const choice = pick(options);
+    if (el.value === choice.value) return false;
+
+    el.value = choice.value;
     el.dispatchEvent(new Event("change", { bubbles: true }));
     return true;
   }
@@ -198,12 +212,17 @@
 
     fields.forEach((el) => {
       const type = classify(el);
-      if (!type) return;
 
       if (el.tagName === "SELECT") {
-        if (fillSelect(el, type)) count++;
+        if (type) {
+          if (fillSelect(el, type)) count++;
+        } else if (fillRandomSelect(el)) {
+          count++;
+        }
         return;
       }
+
+      if (!type) return;
 
       const value = valueFor(type);
       if (value == null) return;
