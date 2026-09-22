@@ -4,10 +4,15 @@ A Chrome/Chromium extension (also works on Edge, Brave, etc.) that fills out
 web forms with fake but realistic-looking personal details — useful for
 testing forms without typing dummy data by hand every time.
 
-**Email and password fields are never touched.**
+**Password fields are never touched. The email field is filled with a real,
+receivable email alias (via the [SimpleLogin](https://simplelogin.io) API)
+instead of a made-up address** — see [Email alias setup](#email-alias-setup-simplelogin)
+below.
 
 ## What it fills in
 
+- Email (real, working alias via SimpleLogin — see setup below; left empty
+  if no API key is configured)
 - First name, last name, full name
 - Address, city, ZIP/postal code, state
 - Phone number
@@ -27,6 +32,34 @@ name and city are reused everywhere they're needed on that page).
 5. Select the `fake-form-filler` folder.
 6. The extension icon will appear in the toolbar (it may be hidden under
    the puzzle-piece icon 🧩 — click that and pin it for easy access).
+
+## Email alias setup (SimpleLogin)
+
+To have the extension fill the email field with a real, working address
+that forwards to your actual inbox, you need a free [SimpleLogin](https://simplelogin.io)
+account and API key.
+
+### Get your API key
+
+1. Sign up (or log in) at [simplelogin.io](https://simplelogin.io).
+2. Go to **app.simplelogin.io/dashboard/setting**.
+3. Scroll down to the **"API Key"** section.
+4. Click **"Create new API Key"** (give it a name, e.g. "Fake Form Filler").
+5. Copy the generated key (looks like `sl_xxxxxxxxxxxxx...`) — it's shown
+   **only once**, so save it somewhere safe.
+6. If it's ever exposed, revoke it and generate a new one from the same page.
+
+### Add it to the extension
+
+1. Click the extension icon to open the popup.
+2. Paste the API key into the **"SimpleLogin API key"** field at the bottom.
+3. Click **"Save key"** — it's stored locally in the browser
+   (`chrome.storage.local`) and is only ever sent to `app.simplelogin.io`
+   over HTTPS.
+
+If no key is saved, or the API call fails (e.g. rate limit, invalid key,
+no network), the email field is simply left untouched — no fake address
+is ever generated instead.
 
 ## How to use it
 
@@ -48,3 +81,9 @@ name and city are reused everywhere they're needed on that page).
 - Radio buttons and checkboxes are clicked at random — including things
   like "I agree to the terms" — so always double-check before submitting
   a real form.
+- The email alias feature requires a SimpleLogin account and API key
+  (see [Email alias setup](#email-alias-setup-simplelogin)); without one,
+  the email field is left blank rather than filled with a fake address.
+- Each click on "Fill the form" creates a **new** SimpleLogin alias — old
+  ones aren't reused or cleaned up automatically. Manage/delete unused
+  aliases from your SimpleLogin dashboard if you don't want them to pile up.
