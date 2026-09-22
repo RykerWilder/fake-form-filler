@@ -86,7 +86,7 @@
   ]);
 
   const RULES = [
-    { type: "skip", keys: ["email", "e-mail"] },
+    { type: "email", keys: ["email", "e-mail"] },
     { type: "birthdate", keys: ["birthdate", "birth date", "date of birth", "dob"] },
     { type: "lastName", keys: ["lastname", "last name", "surname", "family name"] },
     { type: "fullName", keys: ["fullname", "full name", "your name"] },
@@ -112,8 +112,14 @@
     return null;
   }
 
+  // Real alias created via SimpleLogin API, injected by popup.js before this
+  // script runs. Falls back to null (field left untouched) if none is set,
+  // e.g. no API key configured or the API call failed.
+  const realEmailAlias = window.__fakeFormFillerEmail || null;
+
   function valueFor(type) {
     switch (type) {
+      case "email": return realEmailAlias;
       case "firstName": return session.firstName;
       case "lastName": return session.lastName;
       case "fullName": return session.fullName;

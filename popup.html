@@ -50,6 +50,38 @@
     color: #888;
     line-height: 1.4;
   }
+  .settings {
+    margin-top: 14px;
+    padding-top: 10px;
+    border-top: 1px solid #eee;
+  }
+  .settings label {
+    display: block;
+    font-size: 11px;
+    color: #555;
+    margin-bottom: 4px;
+  }
+  .settings input {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 6px 8px;
+    font-size: 12px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    margin-bottom: 6px;
+  }
+  .settings .save {
+    width: auto;
+    padding: 4px 10px;
+    font-size: 11px;
+    background: #444;
+  }
+  .settings .save:hover { background: #222; }
+  #keyStatus {
+    font-size: 10px;
+    color: #888;
+    margin-top: 4px;
+  }
 </style>
 </head>
 <body>
@@ -59,7 +91,15 @@
   </div>
   <button id="fillBtn">Fill the form</button>
   <div id="status"></div>
-  <div class="hint">Fills recognized fields with consistent dummy data. Email and password fields are never touched.</div>
+  <div class="hint">Fills recognized fields with consistent dummy data. The email field gets a real, receivable SimpleLogin alias instead of a fake address.</div>
+
+  <div class="settings">
+    <label for="apiKey">SimpleLogin API key</label>
+    <input type="password" id="apiKey" placeholder="sl_xxxxxxxxxxxxx" autocomplete="off" />
+    <button class="save" id="saveKeyBtn">Save key</button>
+    <div id="keyStatus"></div>
+  </div>
+
   <script src="popup.js"></script>
 </body>
 </html>
