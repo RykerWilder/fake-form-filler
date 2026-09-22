@@ -48,7 +48,7 @@
       city: place.city,
       zip: place.zip,
       state: place.state,
-      phone: `${digits(3)}-${digits(3)}-${digits(4)}`,
+      phone: `${digits(3)}${digits(3)}${digits(4)}`,
       company: pick(COMPANIES),
       birthdate: randomBirthdate()
     };
